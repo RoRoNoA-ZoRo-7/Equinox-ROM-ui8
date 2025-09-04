@@ -1,4 +1,4 @@
-name: Build ExtremeROM
+name: Build EquinoXROM
 
 on:
   workflow_dispatch:
