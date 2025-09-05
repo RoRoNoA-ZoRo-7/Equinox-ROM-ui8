@@ -19,6 +19,7 @@
 
 # [
 # https://android.googlesource.com/platform/build/+/refs/tags/android-15.0.0_r1/envsetup.sh#18
+chmod +x scripts/make_rom.sh
 _GET_SRC_DIR()
 {
     local TOPFILE="unica/config.sh"
