@@ -97,8 +97,8 @@ if $BUILD_ROM; then
     rm -rf $FW_DIR/SM-S938B_EUX/product_a.img
     
     echo -e "Deleting target super.img..."
-    rm -rf $FW_DIR/SM-G990B_EUX/super.img
-    rm -rf $FW_DIR/SM-G990B_EUX/product
+    rm -rf $FW_DIR/($TARGET_ASSERT_MODEL)_EUX/super.img
+    rm -rf $FW_DIR/($TARGET_ASSERT_MODEL)_EUX/product
     
     echo -e "- Creating work dir..."
     bash "$SRC_DIR/scripts/internal/create_work_dir.sh"
@@ -130,7 +130,7 @@ fi
 
 if $BUILD_ZIP; then
     echo "- Cleaning up"
-    rm -rf $FW_DIR/SM-G990B_EUX/system
+    rm -rf $FW_DIR/($TARGET_ASSERT_MODEL)_EUX/system
     echo "- Building ROM zip..."
     bash "$SRC_DIR/scripts/internal/build_flashable_zip.sh"
     echo ""
