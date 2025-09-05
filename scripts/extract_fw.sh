@@ -19,7 +19,7 @@
 # shellcheck disable=SC2162
 
 set -e
-chmod /scripts/make_rom.sh
+chmod +x /scripts/make_rom.sh
 
 # [
 GET_LATEST_FIRMWARE()
