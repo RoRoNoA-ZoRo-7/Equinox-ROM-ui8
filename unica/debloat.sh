@@ -64,6 +64,7 @@ priv-app/Messages
 "
 
 SYSTEM_DEBLOAT+="
+system/system_ext/app/QCC
 system/app/CarrierDefaultApp
 system/app/ccinfo
 system/app/ChromeCustomizations
