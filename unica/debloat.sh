@@ -163,7 +163,6 @@ system/priv-app/Bixby
 system/priv-app/BixbyInterpreter
 system/priv-app/BixbyVisionFramework3.5
 system/priv-app/AutoDoodle
-system/priv-app/Routines
 system/priv-app/SemanticSearchCore
 system/priv-app/SamsungIntelliVoiceServices
 "
