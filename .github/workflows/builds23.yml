@@ -101,6 +101,7 @@ jobs:
 
       - name: Upload to GoFile
         run: |
+          ls
           ZIP_FILE=$(find out -maxdepth 1 -type f -name "*.zip" | head -n 1)
           if [[ ! -f "$ZIP_FILE" ]]; then
             echo "::error::ZIP file not found!"
