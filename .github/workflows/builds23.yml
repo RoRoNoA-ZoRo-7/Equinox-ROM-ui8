@@ -102,12 +102,24 @@ jobs:
       - name: Upload to GoFile
         run: |
           ZIP_FILE=$(find out -maxdepth 1 -type f -name "*.zip" | head -n 1)
+          if [[ ! -f "$ZIP_FILE" ]]; then
+            echo "::error::ZIP file not found!"
+            exit 1
+          fi
           RESPONSE=$(curl -s -F "file=@$ZIP_FILE" -F "token=${{ secrets.GOFILE_TOKEN }}" -F "folderId=${{ secrets.GOFILE_FOLDER_ID }}" "https://upload-eu-par.gofile.io/uploadFile")
+          echo "Raw API response:"
+          echo "$RESPONSE"
+          DOWNLOAD_LINK=$(echo "$RESPONSE" | jq -r '.data.downloadPage')
+          if [[ "$DOWNLOAD_LINK" == "null" || -z "$DOWNLOAD_LINK" ]]; then
+            echo "::error::Failed to get download link from GoFile response"
+            exit 1
+          fi
           echo "Download link:"
-          echo "$RESPONSE" | jq -r '.data.downloadPage'
+          echo "$DOWNLOAD_LINK"
 
-          echo "MD5:"
+          echo "MD5 checksum:"
           md5sum "$ZIP_FILE"
 
-          echo "SHA256:"
+          echo "SHA256 checksum:"
           sha256sum "$ZIP_FILE"
+          
