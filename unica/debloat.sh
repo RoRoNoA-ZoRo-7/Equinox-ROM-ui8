@@ -60,7 +60,6 @@ app/YouTube
 overlay/GmsConfigOverlaySearchSelector.apk
 priv-app/SearchSelector
 priv-app/Velvet
-priv-app/Messages
 "
 
 SYSTEM_DEBLOAT+="
