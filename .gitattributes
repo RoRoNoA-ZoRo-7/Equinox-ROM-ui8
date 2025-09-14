@@ -1,8 +1,10 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text eol=lf
+
 # Denote all files that are truly binary and should not be modified.
+
 # Common file extensions
-*.apk filter=lfs diff=lfs merge=lfs -text
+*.apk binary
 *.apex binary
 *.bin binary
 *.so binary
@@ -16,11 +18,14 @@
 *.qmg binary
 *.webp binary
 *.pdf binary
+
 # ROM-specific prebuilt blobs
 prebuilts/bootable/deprecated-ota/updater binary
 prebuilts/*/*/*/** binary
 unica/mods/rezetprop/system/bin/rezetprop binary
+
 # Platform-specific prebuilt blobs
 platform/exynos9820/patches/vendor/vendor/** binary
+
 # Device-specific prebuilt blobs
 target/r8s/patches/vendor/vendor/** binary
