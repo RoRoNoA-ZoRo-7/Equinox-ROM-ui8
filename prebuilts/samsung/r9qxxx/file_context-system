@@ -2,3 +2,6 @@
 /system/priv-app u:object_r:system_file:s0
 /system/priv-app/SamsungCamera u:object_r:system_file:s0
 /system/priv-app/SamsungCamera/SamsungCamera\.apk u:object_r:system_file:s0
+/system/lib64 u:object_r:system_lib_file:s0
+/system/lib64/libbluetooth_jni\.so u:object_r:system_lib_file:s0
+
