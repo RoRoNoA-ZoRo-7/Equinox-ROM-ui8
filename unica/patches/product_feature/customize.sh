@@ -22,37 +22,18 @@ GET_FP_SENSOR_TYPE()
 {
     if [[ "$1" == *"ultrasonic"* ]]; then
         echo "ultrasonic"
-
     elif [[ "$1" == *"optical"* ]]; then
         echo "optical"
-
     elif [[ "$1" == *"side"* ]]; then
         echo "side"
-
     else
         echo "Unsupported type: $1"
         exit 1
     fi
 }
 
-# Model and region extraction from TARGET_FIRMWARE
 MODEL=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 1)
 REGION=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 2)
-
-# Apply multi resolution patches if source has QHD and target does not
-if $SOURCE_HAS_QHD_DISPLAY; then
-    if ! $TARGET_HAS_QHD_DISPLAY; then
-        echo "Applying multi resolution patches"
-
-        ADD_TO_WORK_DIR "e1qzcx" "system" "."
-
-        APPLY_PATCH "system/framework/framework.jar" "resolution/framework.jar/0001-Disable-dynamic-resolution-control.patch"
-
-        APPLY_PATCH "system/framework/gamemanager.jar" "resolution/gamemanager.jar/0001-Disable-dynamic-resolution-control.patch"
-
-        APPLY_PATCH "system/priv-app/SecSettings/SecSettings.apk" "resolution/SecSettings.apk/0001-Disable-dynamic-resolution-control.patch"
-    fi
-fi
 
 # Apply fingerprint sensor patches if source and target fingerprint sensor types differ
 if [[ "$(GET_FP_SENSOR_TYPE "$SOURCE_FP_SENSOR_CONFIG")" != "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" ]]; then
@@ -94,9 +75,4 @@ if [[ "$(GET_FP_SENSOR_TYPE "$SOURCE_FP_SENSOR_CONFIG")" != "$(GET_FP_SENSOR_TYP
         APPLY_PATCH "system/framework/services.jar" "fingerprint/services.jar/0001-Set-FP_FEATURE_SENSOR_IS_ULTRASONIC-to-false.patch"
         APPLY_PATCH "system/framework/services.jar" "fingerprint/services.jar/0002-Set-FP_FEATURE_SENSOR_IS_IN_DISPLAY_TYPE-to-false.patch"
     fi
-fi
-
-if [ "$(GET_PROP "vendor" "ro.build.ab_update")" != "true" ]; then
-    echo "Disabling A/B partitions"
-    SET_PROP "product" "ro.product.ab_ota_partitions" --delete
 fi
