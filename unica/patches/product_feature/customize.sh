@@ -39,17 +39,13 @@ REGION=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 2)
 if [[ "$(GET_FP_SENSOR_TYPE "$SOURCE_FP_SENSOR_CONFIG")" != "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" ]]; then
     echo "Applying fingerprint sensor patches"
 
-    DECODE_APK "system/framework/framework.jar"
-    DECODE_APK "system/framework/services.jar"
-    DECODE_APK "system/priv-app/SecSettings/SecSettings.apk"
-    DECODE_APK "system/priv-app/BiometricSetting/BiometricSetting.apk"
+    DECODE_APK "system" "system/framework/framework.jar"
+    DECODE_APK "system" "system/framework/services.jar"
+    DECODE_APK "system" "system/priv-app/SecSettings/SecSettings.apk"
+    DECODE_APK "system_ext" "priv-app/SystemUI/SystemUI.apk"
+    DECODE_APK "system" "system/priv-app/BiometricSetting/BiometricSetting.apk"
 
     FTP="
-    system/framework/framework.jar/smali_classes2/android/hardware/fingerprint/FingerprintManager.smali
-    system/framework/framework.jar/smali_classes2/android/hardware/fingerprint/HidlFingerprintSensorConfig.smali
-    system/framework/framework.jar/smali_classes5/com/samsung/android/bio/fingerprint/SemFingerprintManager.smali
-    system/framework/framework.jar/smali_classes5/com/samsung/android/bio/fingerprint/SemFingerprintManager\$Characteristics.smali
-    system/framework/framework.jar/smali_classes6/com/samsung/android/rune/InputRune.smali
     system/framework/services.jar/smali/com/android/server/biometrics/sensors/fingerprint/FingerprintUtils.smali
     system/priv-app/SecSettings/SecSettings.apk/smali_classes4/com/samsung/android/settings/biometrics/fingerprint/FingerprintSettingsUtils.smali
     "
@@ -59,14 +55,12 @@ if [[ "$(GET_FP_SENSOR_TYPE "$SOURCE_FP_SENSOR_CONFIG")" != "$(GET_FP_SENSOR_TYP
     done
 
     if [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" == "optical" ]]; then
-        ADD_TO_WORK_DIR "r12sxxx" "system" "system/bin/surfaceflinger"
-        ADD_TO_WORK_DIR "r12sxxx" "system" "system/lib64/libgui.so"
-        ADD_TO_WORK_DIR "r12sxxx" "system" "system/lib64/libui.so"
-
-        APPLY_PATCH "system/framework/services.jar" "fingerprint/services.jar/0001-Set-FP_FEATURE_SENSOR_IS_ULTRASONIC-to-false.patch"
-        APPLY_PATCH "system/priv-app/BiometricSetting/BiometricSetting.apk" "fingerprint/BiometricSetting.apk/0001-Set-FP_FEATURE_SENSOR_IS_ULTRASONIC-to-false.patch"
-        APPLY_PATCH "system/priv-app/BiometricSetting/BiometricSetting.apk" "fingerprint/BiometricSetting.apk/0002-Always-use-ultrasonic-FOD-animation.patch"
-
+            ADD_TO_WORK_DIR "a36xqnaxx" "system" "system/bin/surfaceflinger"
+            ADD_TO_WORK_DIR "a36xqnaxx" "system" "system/lib64/libgui.so"
+            ADD_TO_WORK_DIR "a36xqnaxx" "system" "system/lib64/libui.so"
+            APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/fingerprint/services.jar/0001-Set-FP_FEATURE_SENSOR_IS_ULTRASONIC-to-false.patch"
+            APPLY_PATCH "system" "system/priv-app/BiometricSetting/BiometricSetting.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/BiometricSetting.apk/0001-Set-FP_FEATURE_SENSOR_IS_ULTRASONIC-to-false.patch"
+     
     elif [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" == "side" ]]; then
         ADD_TO_WORK_DIR "b6qxxx" "system" "."
 
